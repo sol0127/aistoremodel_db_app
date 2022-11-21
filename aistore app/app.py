@@ -31,7 +31,7 @@ def stores():
     if request.method == 'POST':
         #
         s_id=request.form['sId']
-        return render_template('stores.html',stores=show_list(s_id))
+        return render_template('stores.html',stores=search_store(s_id))
 
     return render_template('stores.html', stores = show_list())
 

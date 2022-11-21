@@ -58,15 +58,17 @@ def create_store(s_id, s_name, locate):
     print('{} 스토어가 생성 되었습니다.'.format(store['name']))
 
 
+
 def show_list(s_id = None):
     if s_id is None:
         return None
     else:
         #
-        store=search_store(s_id)
-
-        for s in s_df.iloc:
-            s_list=[{'s_id':store.get_id(),'name':store.get_name(),'locate':store.locate,'products_num':store.products_num}]
+        s_list=[]
+        for s_id in s_df.index:
+            s_list.append([{'s_id':s_id,'name':s_df.loc[s_id,'name'],
+                            'locate':s_df.loc[s_id,'locate'],
+                           'products_num':s_df.loc[s_id,'products_num']}])
             print(s_list)
         return s_list
 

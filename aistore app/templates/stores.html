@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% if s_id is not none %} <!---->
+{% block content %} <!---->
     <div class="py-3 text-center">
         <div class="col-lg-6 mx-auto">
             <h2>스토어 목록</h2>
@@ -33,10 +33,10 @@
                 <th scope="row">{{ s.s_id }}</th>
                 <td>{{ s.name }}</td> <!---->
                 <td>{{ s.locate }}</td> <!---->
-                <td>{{ s.products_num }}</td> <!---->
+                <td>{{ s.inventory }}</td> <!---->
             </tr>
         {% endfor %} <!---->
         </tbody>
     </table>
 
-{% endif %} <!---->
+{% endblock %} <!---->
