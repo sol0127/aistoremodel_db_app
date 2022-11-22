@@ -67,6 +67,7 @@ def show_list(s_id): #s_id가 있으면 해당하는 값 하나만 출력 없으
             s_list.append({'s_id': s_id, 'name': s_df.loc[s_id, 'name'],
                            'locate': s_df.loc[s_id, 'locate'],
                            'products_num': s_df.loc[s_id, 'products_num']})
+            #조인해서 제품명 출력하기!!!
         print(s_list)
         return s_list
     else:
