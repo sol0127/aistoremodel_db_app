@@ -60,18 +60,20 @@ def create_store(s_id, s_name, locate):
 
 
 
-def show_list(s_id = None):
+def show_list(s_id): #s_id가 있으면 해당하는 값 하나만 출력 없으면 전체 출력
     if s_id is None:
-        return None
-    else:
-        #
-        s_list=[]
+        s_list = []
         for s_id in s_df.index:
-            s_list.append([{'s_id':s_id,'name':s_df.loc[s_id,'name'],
-                            'locate':s_df.loc[s_id,'locate'],
-                           'products_num':s_df.loc[s_id,'products_num']}])
+            s_list.append({'s_id': s_id, 'name': s_df.loc[s_id, 'name'],
+                           'locate': s_df.loc[s_id, 'locate'],
+                           'products_num': s_df.loc[s_id, 'products_num']})
         print(s_list)
         return s_list
+    else:
+        s_list = []
+        s_list.append(search_store(s_id))
+        return s_list
+
 
 def search_store(s_id):
     print(s_id)
