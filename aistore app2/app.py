@@ -51,11 +51,13 @@ def manage(s_id = 'nan'):
             pw = request.form['sPassword']
 
             ai_store = search_store(s_id)
-            products = ai_store.get_menu()
+            inventory = ai_store.get_menu()
+            products = get_products()
             # 렌더링시 필요한 변수 할당해야 할것
             return render_template('manage.html',
                                     s_id = s_id,
-                                    manage=products
+                                    inventory=inventory,
+                                   products=products
                                     )
         else:
             # 아닐때는 상품 등록 폼

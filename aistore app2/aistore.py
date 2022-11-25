@@ -60,8 +60,8 @@ class AiStore:
     def get_menu(self):
         # {'p_name': p_name, 'price': int(price), 'count': int(count), 'p_id':p_id} 형태로 인벤토리의 상품들을 메뉴리스트에 추가
         menu = []
-        for p_id in iv_df:
-            menu.append({'p_name':p_df.iloc[0], 'price':iv_df.iloc[2],'count':iv_df.iloc[1], 'p_id':p_id})
+        for p_id in iv_df.iloc:
+            menu.append({'p_name':p_df.iloc['product'], 'price':iv_df['price'],'count':iv_df['count'], 'p_id':p_id})
 
         return menu
 
