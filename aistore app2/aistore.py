@@ -7,7 +7,7 @@ iv_df = pd.read_csv('./static/inventory.csv')
 
 class AiStore:
 
-    def __init__(self, name,  locate, products_num, inventory):
+    def __init__(self, name, s_id, locate, products_num, inventory):
         self.name = name
         self.s_id = s_id
         self.locate = locate
@@ -60,12 +60,17 @@ class AiStore:
     def get_menu(self):
         # {'p_name': p_name, 'price': int(price), 'count': int(count), 'p_id':p_id} 형태로 인벤토리의 상품들을 메뉴리스트에 추가
         menu = []
-        ~
+        for p_id in iv_df:
+            menu.append({'p_name':p_df.iloc[0], 'price':iv_df.iloc[2],'count':iv_df.iloc[1], 'p_id':p_id})
+
         return menu
 
     def get_product(self, p_id):
         # p_id 해당하는 상품 반환 인벤토리에서 쿼리 후 .iloc[0] 을 통해 상품 가져올것
-        ~
+        if p_id in iv_df:
+            p_name=p_df.iloc[0]
+            price=iv_df.iloc[2]
+            count=iv_df.iloce[1]
         return {'p_name': p_name, 'price': int(price), 'count': int(count), 'p_id':p_id}
 
 
@@ -92,7 +97,7 @@ def search_store(s_id):
         store = s_df.loc[s_id]
         # 인벤토리에서 s_id에 해당하는 상품 쿼리 후 p_df 와 p_id를 기준으로 머지 (인벤토리가 왼쪽이 되야함)
         inventory = iv_df[iv_df['s_id'] == s_id]
-        inventory = ~
+        inventory = inventory.merge(p_df, how='left', on='p_id')
         return AiStore(store['name'],
                        store['s_id'],
                        store['locate'],

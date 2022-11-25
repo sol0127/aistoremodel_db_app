@@ -48,7 +48,7 @@ def manage(s_id = 'nan'):
             # s_id를 통해 ai_store 인스턴스를 받아옴 aistore 모듈의 함수 사용
             # aistore 모듈의 p_df 목록을 가져오는 함수사용
             s_id = request.form['sId']
-            # pw = request.form['sPassword']
+            pw = request.form['sPassword']
 
             ai_store = search_store(s_id)
             products = ai_store.get_menu()
@@ -63,12 +63,13 @@ def manage(s_id = 'nan'):
             # 폼에서 데이터 가져와 상품 업데이트 aistore모듈의 함수중 2개를 사용해야함
             ai_store = search_store(s_id)
             #제품등록입력받고 등록 가능 품목 출력
+            inventory=ai_store.get_inventory()
             p_id = request.form['pId']
             price = request.form['price']
             count = request.form['count']
             products = ai_store.get_product(p_id)
 
-
+            #음 그럼 inventory는 어떻게 렌더링?->해결하기!!
             return render_template('manage.html',
                                     s_id = s_id,
                                     manage = products
@@ -81,14 +82,16 @@ def board(s_id = 'nan'):
     if s_id != 'nan':
         # 스토어 아이디가 있을땐 스토어 메뉴를 변수로 전달
         # 스토어 인스턴스 받아온후 스토어클래스의 함수를 사용해 menu 전달
-        ~
+        store = search_store(s_id)
+        menu= store.get_menu()
         return render_template('board.html',
-                               s_id=s_id, ~)
+                               s_id=s_id, board=menu)
     else:
         #'nan' 일땐 폼을 통해서 페이지 렌더링
         if request.method == 'POST':
-            ~
-            return render_template('board.html', s_id=s_id, ~)
+            s_id = request.form['sId']
+            pw = request.form['sPassword']
+            return render_template('board.html', s_id=s_id, pw=pw)
 
         return render_template('board.html',
                                s_id=s_id,)
@@ -98,8 +101,8 @@ def board(s_id = 'nan'):
 def buy(s_id, p_id):
     # 스토어 인스턴스 찾아옴
     # 스토어 함수 활용하여 상품 정보 찾아옴
-    ai_store = ~
-    product = ~
+    ai_store = search_store(s_id)
+    product = ai_store.get_product()
     # 세션에 count 키가 없으면 'count'키의 값을 1로 할당 (아이템 구매 개수)
     # 세션은 딕셔너리처럼 사용 가능하며 페이지접속자에 독립적으로 할당
     if 'count' not in session:
@@ -110,16 +113,17 @@ def buy(s_id, p_id):
         if request.form.get('plus') == '+':
             # + 버튼일 경우만 true
             # 세션의 count를 +1 하고 페이지 렌더링
-            ~
+            session['count']+=1
         elif request.form.get('sub') == '-':
             # - 버튼일 경우만 true
             # 세션의 count가 1보다 크면 -1 하고 페이지 렌더링
-            ~
+            if(session['count']>=1):
+                session['count']-=1
 
         else:
             # 전부 아니므로 구매 버튼일 경우가 됨
             # 스토어에서 구매 함수 실행후 업데이트
-            ~
+            ai_store.buy_product(p_id,session['count'])
             del session['count']
             return redirect(url_for('board', s_id = s_id))
 
