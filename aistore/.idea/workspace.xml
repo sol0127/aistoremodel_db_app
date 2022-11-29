@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ecb91017-32e0-46b9-b00e-42250dd717fa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/파이썬공부.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/aistore.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/1115.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pandas_test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/.idea/bank-pandas실습.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/bank3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bank-pandas실습/pandas_bank3test.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pandas실습/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pandas실습/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pandas실습/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pandas실습/.idea/pandas실습.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pandas실습/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pandas실습/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HcUPZvmQ93MF4SuZ6LadMaabQr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ecb91017-32e0-46b9-b00e-42250dd717fa" name="Changes" comment="" />
+      <created>1668583845893</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668583845893</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
