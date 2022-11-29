@@ -65,16 +65,30 @@ def manage(s_id = 'nan'):
             # 폼에서 데이터 가져와 상품 업데이트 aistore모듈의 함수중 2개를 사용해야함
             ai_store = search_store(s_id)
             #제품등록입력받고 등록 가능 품목 출력
-            inventory=ai_store.get_inventory()
             p_id = request.form['pId']
             price = request.form['price']
             count = request.form['count']
-            products = ai_store.get_product(p_id)
+            is_df=ai_store.inventory
+            is_df=is_df.set_index('p_id')
+            if p_id in is_df.index:
+                ai_store.set_product(p_id, count, price)
+                inventory = ai_store.get_menu()
+                products = get_products()
+            else:
+                idx = ai_store.inventory.last_valid_index()
+                int(idx)
+                idx += 1
+                ai_store.add_product(p_id, count, price, idx)
 
-            #음 그럼 inventory는 어떻게 렌더링?->해결하기!!
+                print(ai_store.inventory)
+                inventory = ai_store.get_menu()
+                products = get_products()
+
+
             return render_template('manage.html',
                                     s_id = s_id,
-                                    manage = products
+                                    inventory = inventory,
+                                   products = products
                                    )
 
     return render_template('manage.html', s_id = s_id, )
@@ -84,10 +98,12 @@ def board(s_id = 'nan'):
     if s_id != 'nan':
         # 스토어 아이디가 있을땐 스토어 메뉴를 변수로 전달
         # 스토어 인스턴스 받아온후 스토어클래스의 함수를 사용해 menu 전달
-        store = search_store(s_id)
-        menu= store.get_menu()
+        print(s_id)
+        ai_store = search_store(s_id)
+        menu= ai_store.get_menu()
+        print(menu)
         return render_template('board.html',
-                               s_id=s_id, board=menu)
+                               s_id=s_id, menu=menu)
     else:
         #'nan' 일땐 폼을 통해서 페이지 렌더링
         if request.method == 'POST':

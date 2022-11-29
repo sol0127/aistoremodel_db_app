@@ -15,12 +15,20 @@ class AiStore:
         self.inventory = inventory
 
     def add_product(self, p_id, count, price, idx):
-        n_product = {'p_id': p_id, 'count': count, 'price': price, 's_id': self.s_id}
+        #
+        #p_list=self.get_product(p_id)
+
+        # slist = self.get_inventory()
+        # siv = slist[slist['p_id'] == p_id]
+
+        pdf=p_df.set_index('p_id')
+        n_product = {'p_id': p_id, 'p_name':pdf.loc[p_id,'product'], 'count': count, 'price': price, 's_id': self.s_id}
+        print(pdf.loc[p_id,'product'])
         self.inventory.loc[idx] = n_product
         self.products_num = len(self.inventory)
         return n_product
 
-    def set_product(self, p_id, count, price):
+    def set_product(self, p_id, count:int, price:int):
         product =  self.inventory[self.inventory['p_id'] == p_id]
         product['count'] += count
         product['price'] = price
@@ -59,19 +67,33 @@ class AiStore:
 
     def get_menu(self):
         # {'p_name': p_name, 'price': int(price), 'count': int(count), 'p_id':p_id} 형태로 인벤토리의 상품들을 메뉴리스트에 추가
-        menu = []
-        for p_id in iv_df.iloc:
-            menu.append({'p_name':p_df.iloc['product'], 'price':iv_df['price'],'count':iv_df['count'], 'p_id':p_id})
 
+        menu = []
+
+        #inven = iv_df[iv_df['s_id'] == s_id]
+        ip_df=self.get_inventory()
+        #ip_df = inven.merge(p_df, on='p_id')
+        ip_df = ip_df.set_index('p_id')
+        for p_id in ip_df.index:
+            menu.append({'p_id': p_id, 'p_name': ip_df.loc[p_id, 'product'], 'count': ip_df.loc[p_id, 'count'],
+                         'price': ip_df.loc[p_id, 'price']})
+
+        print(menu)
         return menu
 
     def get_product(self, p_id):
         # p_id 해당하는 상품 반환 인벤토리에서 쿼리 후 .iloc[0] 을 통해 상품 가져올것
-        if p_id in iv_df:
-            p_name=p_df.iloc[0]
-            price=iv_df.iloc[2]
-            count=iv_df.iloce[1]
-        return {'p_name': p_name, 'price': int(price), 'count': int(count), 'p_id':p_id}
+        # if p_id in iv_df:
+        #     p_name=p_df.iloc[0]
+        #     price=iv_df.iloc[2]
+        #     count=iv_df.iloce[1]
+        # return {'p_name': p_name, 'price': int(price), 'count': int(count), 'p_id':p_id}
+        piv = iv_df[iv_df['p_id'] == p_id]
+        piv = piv.merge(p_df, on='p_id')
+        for i in range(len(piv)):
+            pl={'p_name': piv.iloc[i]['product'], 'price': piv.iloc[i]['price'], 'count': piv.iloc[i]['count'], 'p_id':p_id}
+        return pl
+
 
 
 
@@ -87,17 +109,37 @@ def create_store(s_id, s_name, locate):
 
 def show_list(s_id = None):
     if s_id is None:
-        return s_df.to_dict('records')
+        sr = []
+        for s_id in s_df.index:
+            inven = iv_df[iv_df['s_id'] == s_id]
+            ip_df = inven.merge(p_df, on='p_id')
+            s_list = []
+            for p_id in ip_df.index:
+                s_list.append(ip_df.loc[p_id, 'product'])
+            sr.append(
+                {'s_id': s_id, 'name': s_df.loc[s_id, 'name'],
+                 'locate': s_df.loc[s_id, 'locate'], 'product': s_list})
+        return sr
     else:
-        return s_df[s_df['s_id'] == s_id].to_dict('records')
+        if s_id in s_df.index:
+            inven = iv_df[iv_df['s_id'] == s_id]
+            ip_df = inven.merge(p_df, on='p_id')
+            s_list = []
+            for p_id in ip_df.index:
+                s_list.append(ip_df.loc[p_id, 'product'])
+            sr = {'s_id': s_id, 'name': s_df.loc[s_id, 'name'],
+                  'locate': s_df.loc[s_id, 'locate'], 'product': s_list}
+        print(sr)
+        return sr
 
 def search_store(s_id):
     print(s_id)
     if s_id in s_df.index:
         store = s_df.loc[s_id]
         # 인벤토리에서 s_id에 해당하는 상품 쿼리 후 p_df 와 p_id를 기준으로 머지 (인벤토리가 왼쪽이 되야함)
-        inventory = iv_df[iv_df['s_id'] == s_id]
-        inventory = inventory.merge(p_df, how='left', on='p_id')
+        inven = iv_df[iv_df['s_id'] == s_id]
+        inventory = inven.merge(p_df, on='p_id')
+
         return AiStore(store['name'],
                        store['s_id'],
                        store['locate'],
