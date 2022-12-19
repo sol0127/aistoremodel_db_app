@@ -1,20 +1,34 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-
 import aistoremodel
 from database import Base, db_session
 from sqlalchemy.orm import relationship
 
+#password
+from sqlalchemy_utils import PasswordType,force_auto_coercion
+
+force_auto_coercion()
+
 class AiStore(Base):
     __tablename__ = 'stores'
+
+    __table_args__ = {'extend_existing': True}
     s_id = Column(String(20), primary_key=True) # 문자열(20), 주키 설정 하여 컬럼 생성
     name = Column(String(20))
     locate = Column(String(30))
+    #password 추가
+    password =Column(
+        PasswordType(schemes=["pbkdf2_sha512", "md5_crypt"], #sha512로 암호화
+        deprecated=["md5_crypt"]),#비교시 md5로
+    )
     products_num = Column(Integer)# 숫자형 컬럼 생성
 
-    def __init__(self, s_id, name, locate):
+    # password 추가
+    def __init__(self, s_id, name, locate, password):
         self.s_id = s_id
         self.name = name
         self.locate = locate
+        # password 추가
+        self.password = password
         self.products_num = 0
 
     def add_product(self):
@@ -22,12 +36,16 @@ class AiStore(Base):
 
 class Products(Base):
     __tablename__ = 'products'
+
+    __table_args__ = {'extend_existing': True}
     p_id = Column(String(20), primary_key=True)
     name = Column(String(20))
     reco_price = Column(Integer)
 
 class Inventory(Base):
     __tablename__ = 'inventory'
+
+    __table_args__ = {'extend_existing': True}
     p_id = Column(String(20), ForeignKey(Products.p_id), primary_key=True)
     count = Column(Integer)
     price = Column(Integer)
@@ -47,11 +65,12 @@ class Inventory(Base):
         self.count -= count
 
 
-def create_store(s_id, s_name, locate):
+def create_store(s_id, s_name, locate,password):
     # s_id 가 존재 하지 않는 경우만 AiStore 인스턴스 생성후 데이터베이스에 추가
     # 커밋하여 데이터베이스 적용
     if db_session.get(AiStore, s_id) is None:
-        s=AiStore(s_id=s_id, name=s_name, locate=locate)
+        # password 추가
+        s=AiStore(s_id=s_id, name=s_name, locate=locate, password=password)
         db_session.add(s)
         db_session.commit()
 

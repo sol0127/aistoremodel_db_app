@@ -24,7 +24,10 @@ def sregister():
         s_id = request.form['sId']
         s_name = request.form['sName']
         locate = request.form['locate']
-        create_store(s_id, s_name, locate)
+        #password 추가
+        password = request.form['sPassword']
+        #password 추가
+        create_store(s_id, s_name, locate, password)
         return redirect('/')
 
     return render_template('sregister.html')
@@ -43,13 +46,21 @@ def manage(s_id = 'nan'):
     if request.method == 'POST':
         if s_id == 'nan':
             s_id = request.form['sId']
+            # password 추가
+            password = request.form['sPassword']
             # Products 전체 쿼리 (리스트)
             products = Products.query.all()
-            return render_template('manage.html',
-                                    s_id = s_id,
-                                    inventory=get_menu(s_id),
-                                    products=products
-                                    )
+            # password 추가
+            p=db_session.get(AiStore, s_id)
+            if p.password == password:
+                return render_template('manage.html',
+                                        s_id = s_id,
+                                        inventory=get_menu(s_id),
+                                        products=products
+                                        )
+            else:
+                print("비밀번호가 틀렸습니다.")
+                return render_template('manage.html', s_id='nan')
         else:
             p_id = request.form['pId']
             price = request.form['price']
@@ -75,8 +86,12 @@ def board(s_id = 'nan'):
 
     if request.method == 'POST':
         s_id = request.form['sId']
+        # password 추가
+        password = request.form['sPassword']
         ai_store = db_session.get(AiStore, s_id)
-        return render_template('board.html', s_id = s_id, menu = get_menu(s_id))
+        # password 추가
+        if ai_store.password==password:
+            return render_template('board.html', s_id = s_id, menu = get_menu(s_id))
 
     if s_id != 'nan':
         ai_store = db_session.get(AiStore, s_id)
